@@ -12,9 +12,21 @@ namespace unit_35_assignment_2_harvey
 {
     public partial class Form1 : Form
     {
+
+        class row
+        {
+            double time;
+            double charge;
+        }
+        List<row> table = new List<row>();
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
