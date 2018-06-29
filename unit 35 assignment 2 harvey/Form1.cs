@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 
+
 namespace unit_35_assignment_2_harvey
 
 {
@@ -96,6 +97,123 @@ namespace unit_35_assignment_2_harvey
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void accelerationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart1.Series.Clear();
+            chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
+            Series series = new Series
+            {
+                Name = "Acceleration",
+                Color = Color.Blue,
+                IsVisibleInLegend = false,
+                IsXValueIndexed = true,
+                ChartType = SeriesChartType.Spline,
+                BorderWidth = 2
+            };
+            chart1.Series.Add(series);
+            foreach (row r in table.Skip(1))
+            {
+                series.Points.AddXY(r.time, r.acceleration);
+            }
+            chart1.ChartAreas[0].AxisX.Title = "time /s";
+            chart1.ChartAreas[0].AxisY.Title = "Acceleration /m/s2";
+            chart1.ChartAreas[0].RecalculateAxesScale();
+
+        }
+
+        private void altitudeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart1.Series.Clear();
+            chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
+            Series series = new Series
+            {
+                Name = "Altitude",
+                Color = Color.Blue,
+                IsVisibleInLegend = false,
+                IsXValueIndexed = true,
+                ChartType = SeriesChartType.Spline,
+                BorderWidth = 2
+            };
+            chart1.Series.Add(series);
+            foreach (row r in table.Skip(1))
+            {
+                series.Points.AddXY(r.time, r.altitude);
+            }
+            chart1.ChartAreas[0].AxisX.Title = "time /s";
+            chart1.ChartAreas[0].AxisY.Title = "altitude /m";
+            chart1.ChartAreas[0].RecalculateAxesScale();
+
+        }
+
+        private void velocityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart1.Series.Clear();
+            chart1.ChartAreas[0].AxisX.IsMarginVisible = false;
+            Series series = new Series
+            {
+                Name = "Velocity",
+                Color = Color.Blue,
+                IsVisibleInLegend = false,
+                IsXValueIndexed = true,
+                ChartType = SeriesChartType.Spline,
+                BorderWidth = 2
+            };
+            chart1.Series.Add(series);
+            foreach (row r in table.Skip(1))
+            {
+                series.Points.AddXY(r.time, r.velocity);
+            }
+            chart1.ChartAreas[0].AxisX.Title = "time /s";
+            chart1.ChartAreas[0].AxisY.Title = "Velocity /m/s";
+            chart1.ChartAreas[0].RecalculateAxesScale();
+
+        }
+
+        private void saveCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.FileName = "";
+            saveFileDialog1.Filter = "csv Files|*.csv";
+            DialogResult results = saveFileDialog1.ShowDialog();
+            if (results == DialogResult.OK)
+            {
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                    {
+                        sw.WriteLine("Time /s, Altitude /m, Velocity /, Acceleration / m/s");
+                        foreach (row r in table)
+                        {
+                            sw.WriteLine(r.time + "," + r.altitude + "," + r.velocity + "," + r.acceleration);
+                        }
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show(saveFileDialog1.FileName + " failed to save.");
+                }
+            }
+
+        }
+
+        private void savePNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.FileName = "";
+            saveFileDialog1.Filter = "png Files|*.png";
+            DialogResult results = saveFileDialog1.ShowDialog();
+            if (results == DialogResult.OK)
+            {
+                try
+                {
+                    chart1.SaveImage(saveFileDialog1.FileName, ChartImageFormat.Png);
+                }
+                catch
+                {
+                    MessageBox.Show(saveFileDialog1.FileName + " failed to save.");
+                }
+            }
 
         }
     }
